@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{% block head_title %}{% endblock %} - {{ setting_datatig_hub_name }}</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'main.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+        <link rel="icon" href="{% static 'logo.png' %}" />
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+        <header>
+            <div class="content">
+                <h1>
+                    <div class="h1-section"><a href="{% url 'datatighubcore:index' %}"><img src="{% static 'logo.png' %}"> {{setting_datatig_hub_name}}</a></div>
+                    {% block header_title %}{% endblock %}
+                </h1>
+            </div>
+        </header>
+        <nav id="menu">
+            <div class="content">
+                <a href="{% url 'datatighubcore:index' %}">About</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'datatighubcore:account_logout' %}">Logout</a>
+                {% else %}
+                    <a href="{% url 'datatighubgithub_account:login' %}">GitHub Login</a>
+                {% endif %}
+            </div>
+        </nav>
+        {% block fullbreadcrumbs %}
+            <nav id="breadcrumbs">
+                <div class="content">
+                    {% block breadcrumbs %}{% endblock %}
+                </div>
+            </nav>
+        {% endblock %}
+
+        {% block fullcontent %}
+            <div id="body" class="content">
+                {% block content %}
+                {% endblock %}
+            </div>
+        {% endblock %}
+
+        <footer>
+            <div class="content">
+                {% include "datatighub/core/footer.html" %}
+            </div>
+        </footer>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js"></script>
+        {% block javascript %}{% endblock %}
+
+    </body>
+</html>

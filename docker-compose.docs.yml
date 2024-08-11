@@ -1,0 +1,18 @@
+services:
+
+  datatig-hub-app-docs:
+    build:
+      context: .
+      dockerfile: Dockerfile-docs
+    ports:
+      - "5000:5000"
+    volumes:
+      - ".:/app"
+    # Sometimes autobuild gets stuck and won't rebuild pages it *thinks* are already up to date.
+    # So rm so we always rebuild everything on startup.
+    command: "/bin/bash -c \"rm -rf docs/_build/html && sphinx-autobuild --host 0.0.0.0 --port 5000 docs docs/_build/html \""
+
+
+networks:
+  default:
+    name: datatig-hub-docs

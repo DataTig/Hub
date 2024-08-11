@@ -1,0 +1,78 @@
+{% extends 'datatighub/git/repository/base.html' %}
+
+{% block head_title %}
+    {% include "datatighub/git/repository/head_title.html" with repository=repository branch=branch %}
+{% endblock %}
+
+{% block header_title %}
+    {% include "datatighub/git/repository/header_title.html" with repository=repository branch=branch %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <span class="breadcrumb">Overview</span>
+{% endblock %}
+
+
+{% block content %}
+
+    <h3>Data</h3>
+
+    <table class="data">
+        <tr>
+            <th>Id</th>
+            <th></th>
+        </tr>
+        {% for type in types %}
+            <tr>
+                <td>{{ type.get_id }}</td>
+                <td>
+                    <a href="{% url 'datatighubgit_repository:tree_type_index' repository_slug=repository.slug tree_name=branch.branch_name type_id=type.get_id %}" class="button">
+                        View <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    {% if calendars %}
+
+        <h3>Calendars</h3>
+
+        <table class="data">
+            <tr>
+                <th>Id</th>
+                <th></th>
+            </tr>
+            {% for calendar in calendars %}
+                <tr>
+                    <td>{{ calendar.get_id }}</td>
+                    <td>
+                        <a href="{% url 'datatighubgit_repository:tree_calendar_index'  repository_slug=repository.slug  tree_name=branch.branch_name calendar_id=calendar.get_id %}" class="button">
+                            View
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+
+    {% endif %}
+
+    <div class="links">
+        <a href="{% url 'datatighubgit_repository:tree_errors_index'  repository_slug=repository.slug tree_name=branch.branch_name %}" class="button">
+             <i class="fa-solid fa-circle-exclamation"></i> Errors
+        </a>
+        <a href="{{ datasette_url }}" class="button">
+             <i class="fa-solid fa-database"></i> Browse SQLite Database
+        </a>
+        <a href="{% url 'datatighubgit_repository:tree_download_sqlite_index'  repository_slug=repository.slug tree_name=branch.branch_name %}" class="button">
+             <i class="fa-solid fa-download"></i> Download SQLite Database
+        </a>
+        <a href="{% url 'datatighubgit_repository:tree_download_frictionless_index'  repository_slug=repository.slug tree_name=branch.branch_name %}" class="button">
+             <i class="fa-solid fa-download"></i> Download Frictionless CSVs (Zip)
+        </a>
+        <a href="{% url 'datatighubgit_repository:tree_api1'  repository_slug=repository.slug tree_name=branch.branch_name %}" class="button">
+             <i class="fa-solid fa-robot"></i> API
+        </a>
+    </div>
+
+{% endblock %}

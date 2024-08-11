@@ -1,0 +1,104 @@
+{% extends 'datatighub/github/repository/base.html' %}
+
+{% block head %}
+    {% include "datatighub/core/lib/web_edit_or_new_head.html"  with record_format=record.get_format  %}
+{% endblock %}
+
+{% block head_title %}
+    Edit {{ record.get_id }} Record - {{ type.get_id }} Type - {% include "datatighub/github/repository/head_title.html" with repository=repository branch=branch %}
+{% endblock %}
+
+{% block header_title %}
+    {% include "datatighub/github/repository/header_title.html" with repository=repository branch=branch %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <span class="breadcrumb"><a href="{% url 'datatighubgithub_repository:tree_index' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug tree_name=branch.branch_name %}">Overview</a></span>
+    <span class="seperator">&gt;</span>
+    <span class="breadcrumb"><a href="{% url 'datatighubgithub_repository:tree_type_index' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug tree_name=branch.branch_name type_id=type.get_id %}">Type {{ type.get_id }}</a></span>
+    <span class="seperator">&gt;</span>
+    <span class="breadcrumb"><a href="{% url 'datatighubgithub_repository:tree_type_record_index' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug tree_name=branch.branch_name type_id=type.get_id record_id=record.get_id %}">Record {{ record.get_id }}</a></span>
+    <span class="seperator">&gt;</span>
+    <span class="breadcrumb">Edit</span>
+{% endblock %}
+
+{% block content %}
+
+    <h3>Edit</h3>
+
+    <div id="editor_holder">
+    </div>
+
+    {% if record.get_format == 'md' and type.get_markdown_body_is_field %}
+        <div>
+            <label>
+                <div id="editor_body_label">Markdown Body:</div>
+                <textarea id="editor_body_textarea"></textarea>
+            </label>
+        </div>
+    {% endif %}
+
+    {% if can_try_submission %}
+
+        <form method="post" action="#" onsubmit="sending_final_data_to_server(); return true;">
+            {% csrf_token %}
+            <input type="hidden" id="raw_data_out" name="content" value="">
+            <div>
+                <label>
+                    Commit Message:
+                    <textarea name="commit_message">Edited via DataTig</textarea>
+                </label>
+            </div>
+            <div>
+                <label>
+                    New Branch Name:
+                    <input type="text" name="new_branch_name" value="{{ new_branch_name }}">
+                </label>
+            </div>
+            <div>
+                <input type="submit" class="button" value="Save">
+            </div>
+        </form>
+
+    {% else %}
+
+        <h3>How To Submit</h3>
+
+        <div>
+            <textarea id="raw_data_out" readonly="readonly"></textarea>
+        </div>
+
+
+        <p class="text-right">
+            <a href="#" onclick="copy(); return false;" class="button" ><i class="fa-solid fa-copy"></i> Copy Data</a>
+        </p>
+
+        <p>Go to the Github page to edit <em>{{  item.get_git_filename }}</em> and copy and paste in the content above.</p>
+        <p class="text-right">
+            <a href="https://github.com/{{ repository.wrapper.slug }}/{{ repository.slug }}/edit/{{ branch.branch_name }}/{{  record.get_git_filename }}" target="_new" class="button">
+                <i class="fa-solid fa-pen-to-square"></i>
+                Edit on GitHub
+            </a>
+        </p>
+
+    {% endif %}
+
+{% endblock %}
+
+
+
+{% load static %}
+
+
+{% block javascript %}
+    {% include "datatighub/core/lib/web_edit_or_new_javascript.html" with record=record record_format=record.get_format %}
+    <script>
+        var data = JSON.parse("{{ record.get_data_as_json_string | escapejs }}");
+        var schema = JSON.parse("{{ type.get_json_schema_as_string | escapejs }}");
+        var pretty_json_indent = {{ type.get_pretty_json_indent }};
+        var data_format = "{{ record.get_format }}";
+        var markdown_body_is_field = "{% if type.get_markdown_body_is_field %}{{ type.get_markdown_body_is_field | escapejs }}{% endif %}";
+    </script>
+    <script src="{% static 'web-edit-or-new.js' %}" defer></script>
+{% endblock %}
+

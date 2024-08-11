@@ -1,0 +1,82 @@
+{% extends 'datatighub/github/repository/base.html' %}
+
+{% block head_title %}
+    {{ record.get_id }} Record - {{ type.get_id }} Type - {% include "datatighub/github/repository/head_title.html" with repository=repository branch=branch %}
+{% endblock %}
+
+{% block header_title %}
+    {% include "datatighub/github/repository/header_title.html" with repository=repository branch=branch %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <span class="breadcrumb"><a href="{% url 'datatighubgithub_repository:tree_index' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug tree_name=branch.branch_name %}">Overview</a></span>
+    <span class="seperator">&gt;</span>
+    <span class="breadcrumb"><a href="{% url 'datatighubgithub_repository:tree_type_index' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug tree_name=branch.branch_name type_id=type.get_id %}">Type {{ type.get_id }}</a></span>
+    <span class="seperator">&gt;</span>
+    <span class="breadcrumb">Record {{ record.get_id }}</span>
+{% endblock %}
+
+{% block content %}
+
+    <table class="data">
+        <tr>
+            <th>Field</th>
+            <th>Value</th>
+        </tr>
+        {% for field in fields %}
+            {% include "datatighub/git/repository/tree/type/record/index_base_field_row.html" with field=field type=type record=record repository=repository %}
+        {% endfor %}
+    </table>
+
+    {% for field in fields %}
+        {% include "datatighub/git/repository/tree/type/record/index_base_field_extra.html" with field=field type=type record=record %}
+    {% endfor %}
+
+    {% include "datatighub/git/repository/tree/type/record/index_base_errors.html" with record=record %}
+
+    {% if calendar_ids %}
+        <h3>Calendars</h3>
+
+        <p>This appears on the following calendars:</p>
+
+        <ul>
+            {% for calendar_id in calendar_ids %}
+                <li>
+                    <a href="{% url 'datatighubgithub_repository:tree_calendar_index' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug tree_name=branch.branch_name calendar_id=calendar_id %}">
+                        {{ calendar_id }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+
+    {% endif %}
+
+    <h3>Meta</h3>
+
+    <table class="summary">
+        <tr>
+            <th>Git filename</th>
+            <td>
+                {{ record.get_git_filename }}
+                <a href="https://github.com/{{ repository.wrapper.slug }}/{{ repository.slug }}/blob/{{ branch.branch_name }}/{{  record.get_git_filename }}" class="button">
+                    <i class="fa-brands fa-github"></i> View on GitHub
+                </a>
+            </td>
+        </tr>
+    </table>
+
+    <h3>Edit</h3>
+
+    <div class="links">
+        <a href="{% url 'datatighubgithub_repository:tree_type_record_edit' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug tree_name=branch.branch_name type_id=type.get_id record_id=record.get_id %}" class="button">
+             <i class="fa-solid fa-pen-to-square"></i> Edit
+        </a>
+    </div>
+
+    <div class="links">
+
+        <a href="{% url 'datatighubgithub_repository:tree_type_record_api1' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug tree_name=branch.branch_name type_id=type.get_id record_id=record.get_id %}" class="button">
+             <i class="fa-solid fa-robot"></i> API
+        </a>
+    </div>
+{% endblock %}

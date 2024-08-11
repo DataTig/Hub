@@ -1,0 +1,14 @@
+<tr>
+    <td>{{ branch.branch_name }}</td>
+    <td>
+        {% if branch == primary_branch %}
+            (Primary Branch)
+        {% endif %}
+    </td>
+    <td>
+        <a href="{{ branch_url }}" class="button">
+            View
+        </a>
+    </td>
+</tr>
+

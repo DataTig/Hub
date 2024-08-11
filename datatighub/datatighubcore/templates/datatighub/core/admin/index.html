@@ -1,0 +1,23 @@
+{% extends 'datatighub/core/base.html' %}
+
+{% block head_title %}Admin{% endblock %}
+
+{% block breadcrumbs %}
+    <span class="breadcrumb">Admin</span>
+{% endblock %}
+
+{% block content %}
+
+<ul>
+    <li>
+        <a href="{% url 'datatighubgit_admin:index' %}">Git</a>
+    </li>
+    <li>
+        <a href="{% url 'datatighubgithub_admin:index' %}">GitHub</a>
+    </li>
+    <li>
+        <a href="/admin/django/">Dajngo</a>
+    </li>
+</ul>
+
+{% endblock %}

@@ -1,0 +1,6 @@
+{% if repository.get_description %}
+    <tr>
+        <th>Description</th>
+        <td>{{ repository.get_description|urlize|linebreaksbr }}</td>
+    </tr>
+{% endif %}

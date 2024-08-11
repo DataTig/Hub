@@ -1,0 +1,5 @@
+/src
+__pycache__
+/.idea
+/docker-compose.dev.env
+/docs/_build

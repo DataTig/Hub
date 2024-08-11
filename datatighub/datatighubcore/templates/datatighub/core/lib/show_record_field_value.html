@@ -1,0 +1,67 @@
+{% load datatighub %}
+{% type_get_field type field_name as field %}
+{% record_get_field_value record field_name as field_value %}
+{# Should pass .... #}
+{# summary - True or False. #}
+
+{% if field.get_type == 'url' %}
+    <a href="{{ field_value.get_value }}">{{ field_value.get_value }}</a>
+    {% if not summary %}
+        {% record_url_field_get_link_check record field_name as link_model %}
+        {% if link_model %}
+            <p>
+                Last checked {{ link_model.last_check_at | timesince }} ago:
+                {% if link_model.last_check_result == link_model.CheckResultChoices.SUCCESS %}
+                    web page successfully found
+                {% elif link_model.last_check_result == link_model.CheckResultChoices.FAILED %}
+                    web page not found!
+                {% elif link_model.last_check_result == link_model.CheckResultChoices.ROBOT_BLOCKED %}
+                    but this website blocked our check.
+                {% else %}
+                    result unclear.
+                {% endif %}
+            </p>
+        {% endif %}
+    {% endif %}
+{% elif field.get_type == 'list-strings' %}
+    <ul>
+        {% for value in field_value.get_value %}
+            <li>{{ value }}</li>
+        {% endfor %}
+    </ul>
+{% elif field.get_type == 'boolean' %}
+    {% if field_value.is_value_true %}
+        True
+    {% elif field_value.is_value_false %}
+        False
+    {% endif %}
+{% elif field.get_type == 'datetime' %}
+    {% if field_value.get_value_datetime_object %}
+        {{ field_value.get_value_datetime_object|date:"Y N jS H:i:s" }} ({{ field.get_timezone }})
+    {% endif %}
+{% elif field.get_type == 'date' %}
+    {% if field_value.get_value_datetime_object %}
+        {{ field_value.get_value_datetime_object|date:"Y N jS" }}
+    {% endif %}
+{% elif field.get_type == 'markdown' %}
+    {% if summary %}
+        {{ field_value.get_value |linebreaksbr}}
+    {% else %}
+        <div class="markdown">
+            <p>
+                <a href="#" onclick="this.closest('.markdown').querySelector('.markdown-source').style.display='block'; this.closest('.markdown').querySelector('.markdown-preview').style.display='none'; return false;">Source</a>
+                <a href="#" onclick="this.closest('.markdown').querySelector('.markdown-source').style.display='none'; this.closest('.markdown').querySelector('.markdown-preview').style.display='block'; return false;">Preview</a>
+            </p>
+            <div class="markdown-source" style="display: block">
+                {{ field_value.get_value |linebreaksbr}}
+            </div>
+            <div class="markdown-preview" style="display: none">
+                {% record_get_markdown_field_value_html record field_name repository=repository as markdown_html %}
+                {{ markdown_html | safe }}
+            </div>
+        </div>
+    {% endif %}
+{% else %}
+    {{ field_value.get_value |linebreaksbr}}
+{% endif %}
+

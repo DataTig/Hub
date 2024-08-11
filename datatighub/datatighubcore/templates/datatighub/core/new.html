@@ -1,0 +1,21 @@
+{% extends 'datatighub/core/base.html' %}
+
+{% block head_title %}New Repository{% endblock %}
+
+{% block head %}
+    <meta name="robots" content="{{ setting_datatig_hub_meta_robots }}" />
+{% endblock %}
+
+{% block breadcrumbs %}
+    <a href="{% url 'datatighubcore:index' %}">Welcome</a>
+{% endblock %}
+
+{% block fullbreadcrumbs %}{% endblock %}
+
+{% block content %}
+
+    {% include "datatighub/core/index_intro.html" %}
+
+    <p>To add your repository to {{setting_datatig_hub_name}}, please email us at {{setting_datatig_hub_email}}</p>
+
+{% endblock %}

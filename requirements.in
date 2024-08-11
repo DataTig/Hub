@@ -1,0 +1,12 @@
+Django<6
+psycopg2
+django-environ
+git+https://github.com/DataTig/DataTig.git@f7635f141e0c1416c5c62c0cb5b0870ba05ee448#egg=datatig
+requests
+requests-oauthlib
+celery
+icalendar
+redis
+markdown-it-py
+lru-dict
+sentry-sdk[django]

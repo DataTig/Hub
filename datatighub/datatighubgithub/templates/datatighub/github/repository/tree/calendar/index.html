@@ -1,0 +1,60 @@
+{% extends 'datatighub/github/repository/base.html' %}
+
+{% block head_title %}
+    {{ calendar.get_id }} Calendar - {% include "datatighub/github/repository/head_title.html" with repository=repository branch=branch %}
+{% endblock %}
+
+{% block header_title %}
+    {% include "datatighub/github/repository/header_title.html" with repository=repository branch=branch %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <span class="breadcrumb"><a href="{% url 'datatighubgithub_repository:tree_index' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug tree_name=branch.branch_name %}">Overview</a></span>
+    <span class="seperator">&gt;</span>
+    <span class="breadcrumb">Calendar {{ calendar.get_id }}</span>
+{% endblock %}
+
+{% block fullcontent %}
+
+    <div class="content">
+        Timezone: {{ calendar.get_timezone }}
+    </div>
+
+    <div id='calendar_element'></div>
+
+    <div class="content">
+        <div class="links">
+            <a href="{% url 'datatighubgithub_repository:tree_calendar_api1' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug tree_name=branch.branch_name calendar_id=calendar.get_id %}" class="button">
+                <i class="fa-solid fa-robot"></i> API
+            </a>
+            <a href="{% url 'datatighubgithub_repository:tree_calendar_ical' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug tree_name=branch.branch_name calendar_id=calendar.get_id %}" class="button">
+                <i class="fa-solid fa-download"></i> ICal
+            </a>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+    <script src='https://cdn.jsdelivr.net/npm/moment@2.29.4/min/moment.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/moment-timezone@0.5.40/builds/moment-timezone-with-data.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment-timezone@6.1.13/index.global.min.js'></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar_element');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+              timeZone: '{{ calendar.get_timezone }}',
+              eventSources: [
+                {
+                  url: "{% url 'datatighubgithub_repository:tree_calendar_fullcalendar_data' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug tree_name=branch.branch_name calendar_id=calendar.get_id %}",
+                }
+              ]
+            });
+            calendar.render();
+        });
+    </script>
+
+{% endblock %}
+
+

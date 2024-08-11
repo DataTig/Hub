@@ -1,0 +1,42 @@
+name: Test
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    strategy:
+      matrix:
+        python-version: [ '3.11']
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+        fetch-depth: 0
+    - name: Setup python
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+        architecture: x64
+    - run: pip install -r requirements_dev.txt
+    - run: mkdir ${{ github.workspace }}/datatighub_data
+    - run: pytest
+      working-directory: ./datatighub
+      env:
+        DATATIG_HUB_DATABASE_NAME: postgres
+        DATATIG_HUB_DATABASE_USER: postgres
+        DATATIG_HUB_DATABASE_PASSWORD: postgres
+        DATATIG_HUB_CELERY_BROKER_URL: memory://
+        DATATIG_HUB_DATA_STORAGE_V1: "${{ github.workspace }}/datatighub_data"
+

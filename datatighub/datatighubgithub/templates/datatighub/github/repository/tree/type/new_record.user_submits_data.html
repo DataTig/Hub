@@ -1,0 +1,57 @@
+{% extends 'datatighub/github/repository/base.html' %}
+
+{% block head %}
+    {% include "datatighub/core/lib/web_edit_or_new_head.html"  with record=record record_format=type.get_default_format %}
+{% endblock %}
+
+{% block head_title %}
+    New Record - {{ type.get_id }} Type - {% include "datatighub/github/repository/head_title.html" with repository=repository branch=branch %}
+{% endblock %}
+
+{% block header_title %}
+    {% include "datatighub/github/repository/header_title.html" with repository=repository branch=branch %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <span class="breadcrumb"><a href="{% url 'datatighubgithub_repository:tree_index' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug tree_name=branch.branch_name %}">Overview</a></span>
+    <span class="seperator">&gt;</span>
+    <span class="breadcrumb"><a href="{% url 'datatighubgithub_repository:tree_type_index' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug tree_name=branch.branch_name type_id=type.get_id %}">Type {{ type.get_id }}</a></span>
+    <span class="seperator">&gt;</span>
+    <span class="breadcrumb">New Record</span>
+{% endblock %}
+
+{% block content %}
+
+    <h3>Sorry!</h3>
+
+    <p>There was a problem and we could not submit your data automaticaly. But we can still help you submit it!</p>
+
+    <div>
+        <textarea id="raw_data_out" readonly="readonly">{{ content }}</textarea>
+    </div>
+
+    <p class="text-right">
+        <a href="#" onclick="copy(); return false;" class="button" ><i class="fa-solid fa-copy"></i> Copy Data</a>
+    </p>
+
+    <div>
+        <textarea id="commit_message" readonly="readonly">{{ commit_message }}</textarea>
+    </div>
+
+    <p>Go to the Github page to add a new file in <em>{{ type.directory_in_git_repository }}</em> with a "{{ type.get_default_format }}" extension and copy and paste in the content above.</p>
+    <p class="text-right">
+        <a href="https://github.com/{{ repository.wrapper.slug }}/{{ repository.slug }}/new/{{ branch.branch_name }}/{{  type.get_directory_in_git_repository }}" target="_new" class="button">
+            <i class="fa-solid fa-pen-to-square"></i> Edit on GitHub
+        </a>
+    </p>
+
+{% endblock %}
+
+
+{% load static %}
+
+{% block javascript %}
+    <script src="{% static 'web-edit-or-new.user_submits_data.js' %}" defer></script>
+{% endblock %}
+
+

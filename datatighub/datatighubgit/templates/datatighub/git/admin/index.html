@@ -1,0 +1,43 @@
+{% extends 'datatighub/core/base.html' %}
+
+{% block head_title %}Git Admin{% endblock %}
+
+{% block breadcrumbs %}
+    <span class="breadcrumb"><a href="{% url 'datatighubcore_admin:index' %}">Admin</a></span>
+    <span class="seperator">&gt;</span>
+    <span class="breadcrumb">Git</span>
+{% endblock %}
+
+{% block content %}
+
+<table class="data">
+    <tr>
+        <th>Slug</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Git URL</th>
+        <th>Deleted</th>
+        <th>&nbsp;</th>
+    </tr>
+    {% for repository in repositories %}
+    <tr>
+        <td>{{ repository.slug }}</td>
+        <td>{{ repository.get_title }}</td>
+        <td>{{ repository.get_description }}</td>
+        <td>{{ repository.git_url }}</td>
+        <td>{% if repository.deleted %}Deleted{% endif %}</td>
+        <td>
+            {% if not repository.deleted %}
+                <a href="{% url 'datatighubgit_repository:index' repository_slug=repository.slug %}" class="button" rel="nofollow">
+                    Normal View
+                </a>
+                <a href="{% url 'datatighubgit_repository:admin' repository_slug=repository.slug %}" class="button" rel="nofollow">
+                    Repository Admin
+                </a>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% if repository.datatig_config_fallback_url %}
+    <tr>
+        <th>Configuration</th>
+        <td>
+            If no DataTig configuration file is found in the repository, this file will be used instead:<br>
+            <a href="{{ repository.datatig_config_fallback_url }}">
+                {{ repository.datatig_config_fallback_url }}
+            </a>
+        </td>
+    </tr>
+{% endif %}

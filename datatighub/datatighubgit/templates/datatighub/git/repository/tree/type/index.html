@@ -1,0 +1,86 @@
+{% extends 'datatighub/git/repository/base.html' %}
+
+{% block head_title %}
+    {{ type.get_id }} Type - {% include "datatighub/git/repository/head_title.html" with repository=repository branch=branch %}
+{% endblock %}
+
+{% block header_title %}
+    {% include "datatighub/git/repository/header_title.html" with repository=repository branch=branch %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <span class="breadcrumb"><a href="{% url 'datatighubgit_repository:tree_index' repository_slug=repository.slug tree_name=branch.branch_name %}">Overview</a></span>
+    <span class="seperator">&gt;</span>
+    <span class="breadcrumb">Type {{ type.get_id }}</span>
+{% endblock %}
+
+{% block content %}
+
+    <h4>Data</h4>
+
+    <table class="data">
+        <tr>
+            <th>Id</th>
+            {% for field_name in columns %}
+                <th>{{ field_name }}</th>
+            {% endfor %}
+            <th></th>
+        </tr>
+        {% for record in records %}
+        <tr>
+            <td>{{ record.get_id }}</td>
+            {% for field_name in columns %}
+                <td>
+                    {% include 'datatighub/core/lib/show_record_field_value.html' with type=type record=record field_name=field_name summary=True repository=repository %}
+                </td>
+            {% endfor %}
+            <td>
+                <a href="{% url 'datatighubgit_repository:tree_type_record_index' repository_slug=repository.slug tree_name=branch.branch_name type_id=type.get_id record_id=record.get_id %}" class="button">
+                    View <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="links">
+        <a href="{% url 'datatighubgit_repository:tree_type_list_records' repository_slug=repository.slug tree_name=branch.branch_name type_id=type.get_id %}" class="button">
+             <i class="fa-solid fa-magnifying-glass"></i> Search all {{ records_meta.count_all }} records
+        </a>
+        <a href="{% url 'datatighubgit_repository:tree_type_new_record' repository_slug=repository.slug tree_name=branch.branch_name type_id=type.get_id %}" class="button">
+             <i class="fa-solid fa-pen-to-square"></i> New Record
+        </a>
+    </div>
+
+    <h4>Fields</h4>
+
+    <table class="data">
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th></th>
+        </tr>
+        {% for field in fields %}
+        <tr>
+            <td>{{ field.get_id }}</td>
+            <td>{{ field.get_title }}</td>
+            <td>{{ field.get_type }}</td>
+            <td>{{ field.get_description|urlize|linebreaksbr }}</td>
+            <td>
+                <a href="{% url 'datatighubgit_repository:tree_type_field_index'  repository_slug=repository.slug tree_name=branch.branch_name type_id=type.get_id field_id=field.get_id %}" class="button">
+                    View <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="links">
+        <a href="{% url 'datatighubgit_repository:tree_type_api1' repository_slug=repository.slug tree_name=branch.branch_name type_id=type.get_id %}" class="button">
+             API
+        </a>
+    </div>
+
+{% endblock %}

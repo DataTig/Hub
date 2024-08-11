@@ -1,0 +1,46 @@
+{% extends 'datatighub/git/repository/base.html' %}
+
+{% block head_title %}
+    {% include "datatighub/git/repository/head_title.html" with repository=repository branch=None %}
+{% endblock %}
+
+{% block header_title %}
+    {% include "datatighub/git/repository/header_title.html" with repository=repository branch=None %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <span class="breadcrumb">Overview</span>
+{% endblock %}
+
+{% block content %}
+
+    <table class="summary">
+        {% include "datatighub/git/repository/index_base_summary_top.html" with repository=repository %}
+        <tr>
+            <th>Git URL</th>
+            <td>
+                {{ repository.git_url }}
+            </td>
+        </tr>
+        {% include "datatighub/git/repository/index_base_summary_bottom.html" with repository=repository %}
+    </table>
+
+    <h3>Branches</h3>
+
+    <ul class="branches">
+        {% for branch in branches %}
+            {% url 'datatighubgit_repository:tree_index' repository_slug=repository.slug tree_name=branch.branch_name as branch_url %}
+            {% include "datatighub/git/repository/index_base_branch_row.html" with branch=branch branch_url=branch_url primary_branch=repository.primary_branch %}
+        {% endfor %}
+    </ul>
+
+
+    <div class="links">
+        <a href="{% url 'datatighubgit_repository:builds' repository_slug=repository.slug %}" class="button">
+             <i class="fa-solid fa-circle-play"></i> Builds
+        </a>
+    </div>
+
+
+
+{% endblock %}

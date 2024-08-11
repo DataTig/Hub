@@ -1,0 +1,69 @@
+services:
+
+  datatig-hub-app-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    ports:
+      - "8000:8000"
+    environment:
+      DATATIG_HUB_DATABASE_NAME: app
+      DATATIG_HUB_DATABASE_USER: postgres
+      DATATIG_HUB_DATABASE_PASSWORD: 1234
+      DATATIG_HUB_DATABASE_HOST: datatig-hub-postgres
+      DATATIG_HUB_DEBUG: true
+      DATATIG_HUB_CELERY_BROKER_URL: redis://datatig-hub-redis
+    env_file:
+      - path: docker-compose.dev.env
+        required: false
+    volumes:
+      - ".:/app"
+      - "datatig_hub_data:/data"
+    depends_on:
+      - datatig-hub-postgres
+      - datatig-hub-redis
+
+  datatig-hub-worker-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    environment:
+      DATATIG_HUB_DATABASE_NAME: app
+      DATATIG_HUB_DATABASE_USER: postgres
+      DATATIG_HUB_DATABASE_PASSWORD: 1234
+      DATATIG_HUB_DATABASE_HOST: datatig-hub-postgres
+      DATATIG_HUB_DEBUG: true
+      DATATIG_HUB_CELERY_BROKER_URL: redis://datatig-hub-redis
+    env_file:
+      - path: docker-compose.dev.env
+        required: false
+    volumes:
+      - ".:/app"
+      - "datatig_hub_data:/data"
+    depends_on:
+      - datatig-hub-postgres
+      - datatig-hub-redis
+    command: "/bin/bash -c \"cd datatighub && celery -A datatighubcore worker --without-heartbeat --without-gossip --without-mingle -l info -Q important,celery \""
+
+  datatig-hub-postgres:
+    # version matches debian bookwork
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_USER: postgres
+      POSTGRES_DB: app
+    volumes:
+      - ".:/app"
+      - "datatig_hub_postgres:/var/lib/postgresql/data"
+
+  datatig-hub-redis:
+    # version matches debian bookwork
+    image: redis:7.0
+
+networks:
+  default:
+    name: datatig-hub-dev
+
+volumes:
+  datatig_hub_data:
+  datatig_hub_postgres:

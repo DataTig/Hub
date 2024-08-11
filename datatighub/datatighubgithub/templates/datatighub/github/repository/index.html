@@ -1,0 +1,57 @@
+{% extends 'datatighub/github/repository/base.html' %}
+
+{% block head_title %}
+    {% include "datatighub/github/repository/head_title.html" with repository=repository branch=None %}
+{% endblock %}
+
+{% block header_title %}
+    {% include "datatighub/github/repository/header_title.html" with repository=repository branch=None %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <span class="breadcrumb">Overview</span>
+{% endblock %}
+
+{% block content %}
+
+    <table class="summary">
+        {% include "datatighub/git/repository/index_base_summary_top.html" with repository=repository %}
+        <tr>
+            <th>Hosted on GitHub</th>
+            <td>
+                <a href="https://github.com/{{ repository.wrapper.slug }}/{{ repository.slug }}">
+                     <i class="fa-brands fa-github"></i> {{ repository.wrapper.slug }}/{{ repository.slug }}
+                </a>
+                {% if repository.get_github_forks_count %} <i class="fa-solid fa-code-fork"></i> {{ repository.get_github_forks_count }} Forks{% endif %}
+                {% if repository.get_github_stargazers_count %} <i class="fa-regular fa-star"></i> {{ repository.get_github_stargazers_count }} Stars{% endif %}
+            </td>
+        </tr>
+        {% if repository.get_github_homepage %}
+            <tr>
+                <th>Homepage</th>
+                <td><a href="{{ repository.get_github_homepage }}">{{ repository.get_github_homepage }}</a></td>
+            </tr>
+        {% endif %}
+        {% include "datatighub/git/repository/index_base_summary_bottom.html" with repository=repository %}
+    </table>
+
+    <h3>Branches</h3>
+
+    <ul class="branches">
+        {% for branch in branches %}
+            {% url 'datatighubgithub_repository:tree_index' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug tree_name=branch.branch_name as branch_url %}
+            {% include "datatighub/git/repository/index_base_branch_row.html" with branch=branch branch_url=branch_url  primary_branch=repository.primary_branch %}
+        {% endfor %}
+    </ul>
+
+    <div class="links">
+        <a href="{% url 'datatighubgithub_repository:builds' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug  %}" class="button">
+             <i class="fa-solid fa-circle-play"></i> Builds
+        </a>
+        <a href="https://github.com/{{ repository.wrapper.slug }}/{{ repository.slug }}" class="button">
+             <i class="fa-brands fa-github"></i> View on GitHub
+        </a>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,8 @@
+<div class="paging">
+    Page
+    {% for paging_link in paging_links %}
+        <span>
+            <a href="{{ paging_link.link }}">{{ paging_link.text }}</a>
+        </span>
+    {% endfor %}
+</div>

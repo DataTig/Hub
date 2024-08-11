@@ -1,0 +1,13 @@
+{% if field.get_type != 'list-dictionaries' %}
+    <tr>
+        <td>
+            {{ field.get_title }}
+            {% if field.get_description %}
+                <div class="field_description">{{ field.get_description|urlize|linebreaksbr }}</div>
+            {% endif %}
+        </td>
+        <td>
+            {% include 'datatighub/core/lib/show_record_field_value.html' with type=type record=record field_name=field.get_id summary=False repository=repository %}
+        </td>
+    </tr>
+{% endif %}

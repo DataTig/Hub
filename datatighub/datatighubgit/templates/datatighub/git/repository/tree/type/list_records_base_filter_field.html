@@ -1,0 +1,25 @@
+{% load datatighub %}
+<div class="filter-group">
+    <p class="filter-group-title">
+        Field {{ field.get_title }} (<a class="filter-group-toggle-options" display="none">Show</a>)
+    </p>
+    <div class="filter-group-options">
+        {% if field.get_description %}
+            <div class="field_description">{{ field.get_description|urlize|linebreaksbr }}</div>
+        {% endif %}
+        <p>
+            <label>
+                <input type="checkbox" name="columns" value="{{ field.get_id }}" {% if field.get_id in columns %}checked{% endif %}>
+                Show {{ field.get_title }} in grid
+            </label>
+        </p>
+        {% record_filter_field_filters_for_field_id filter field.get_id as field_filters %}
+        {% if field.get_type == "string" %}
+            <p>
+                <label>
+                    Contains <input type="text" name="field_{{ field.get_id }}___value" value="{{ field_filters.value }}">
+                </label>
+            </p>
+        {% endif %}
+    </div>
+</div>

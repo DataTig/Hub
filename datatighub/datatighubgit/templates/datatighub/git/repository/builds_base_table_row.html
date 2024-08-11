@@ -1,0 +1,21 @@
+<tr>
+    <td>{{ build.created }}</td>
+    <td>{{ build.started }}</td>
+    <td>
+        {% if build.finished %}
+            Succeeded at {{ build.finished }}
+        {% elif build.exception_site_configuration %}
+            Site Configuration error: {{ build.exception_site_configuration }}
+        {% elif build.exception %}
+            Error: {{ build.exception }}
+        {% endif %}
+    </td>
+    <td>
+        {% if build.finished %}
+            <a href="{{ branch_url }}">{{ branch_name }}</a>
+        {% else %}
+            {{ branch_name }}
+        {% endif %}
+    </td>
+    <td>{{ build.commit }}</td>
+</tr>

@@ -1,0 +1,16 @@
+{% load static %}
+
+ <li>
+    <a href="{{ branch_url }}" class="title">
+        <img src="{% static 'branch.png' %}">
+        {{ branch.branch_name }}
+        {% if branch == primary_branch %}
+        (Primary Branch)
+        {% endif %}
+    </a>
+    <div class="links">
+        <a href="{{ branch_url }}" class="button">
+            View {{ branch.branch_name }} Branch <i class="fa-solid fa-arrow-right"></i>
+        </a>
+    </div>
+</li>

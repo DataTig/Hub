@@ -1,0 +1,15 @@
+{% load static %}
+<div class="h1-section">
+    <a href="{% url 'datatighubgit_repository:index' repository_slug=repository.slug %}">
+        <img src="{% static 'repository.png' %}">
+        {{ repository.get_title }}
+    </a>
+</div>
+{% if branch %}
+    <div class="h1-section">
+        <a href="{% url 'datatighubgit_repository:tree_index' repository_slug=repository.slug tree_name=branch.branch_name %}">
+            <img src="{% static 'branch.png' %}">
+            {{ branch.branch_name }}
+        </a>
+    </div>
+{% endif %}

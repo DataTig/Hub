@@ -1,0 +1,11 @@
+# version matches debian bookwork
+FROM python:3.11-bookworm
+
+RUN mkdir -p /app
+COPY requirements_docs.txt /app
+WORKDIR /app
+
+RUN pip install -r requirements_docs.txt
+
+EXPOSE 5000
+

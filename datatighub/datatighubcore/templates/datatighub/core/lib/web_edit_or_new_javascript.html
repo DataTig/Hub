@@ -1,0 +1,8 @@
+{% if record_format == 'yaml' or record_format == 'md' %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js" integrity="sha512-dYHhQSvQ3Lepc2xDidh80aADfrIAaVTs52W5JSFlE47SJgcwD+YY+iY0XmXD9UX3k0YOPvoyugS/ieGjpu5M/Q==" crossorigin="anonymous"></script>
+{% endif %}
+{% if record_format == 'md' and type.get_markdown_body_is_field  %}
+<script src="https://cdn.jsdelivr.net/npm/easymde@2.18.0/dist/easymde.min.js"></script>
+{% endif %}
+<script src="https://cdn.jsdelivr.net/npm/@json-editor/json-editor@2.15.1/dist/jsoneditor.min.js"></script>
+

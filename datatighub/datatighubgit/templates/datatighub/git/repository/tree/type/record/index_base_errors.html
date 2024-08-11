@@ -1,0 +1,27 @@
+
+<h3>Errors</h3>
+
+{% if record.get_errors %}
+    <table class="data">
+        <tr>
+            <th>Message</th>
+            <th>Data Path</th>
+            <th>Schema Path</th>
+        </tr>
+        {% for err in record.get_errors %}
+            <tr>
+                <td>
+                    {{ err.get_message}}
+                </td>
+                <td>
+                    {{ err.get_data_path }}
+                </td>
+                <td>
+                    {{ err.get_schema_path }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>No errors</p>
+{% endif %}

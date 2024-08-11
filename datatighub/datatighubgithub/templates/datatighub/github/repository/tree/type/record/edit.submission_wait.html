@@ -1,0 +1,33 @@
+{% extends 'datatighub/github/repository/base.html' %}
+
+{% block head %}
+<meta http-equiv="refresh" content="2" >
+{% endblock %}
+
+{% block head_title %}
+    Edit {{ record.get_id }} Record - {{ type.get_id }} Type - {% include "datatighub/github/repository/head_title.html" with repository=repository branch=branch %}
+{% endblock %}
+
+{% block header_title %}
+    {% include "datatighub/github/repository/header_title.html" with repository=repository branch=branch %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <span class="breadcrumb"><a href="{% url 'datatighubgithub_repository:tree_index' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug tree_name=branch.branch_name %}">Overview</a></span>
+    <span class="seperator">&gt;</span>
+    <span class="breadcrumb"><a href="{% url 'datatighubgithub_repository:tree_type_index' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug tree_name=branch.branch_name type_id=type.get_id %}">Type {{ type.get_id }}</a></span>
+    <span class="seperator">&gt;</span>
+    <span class="breadcrumb"><a href="{% url 'datatighubgithub_repository:tree_type_record_index' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug tree_name=branch.branch_name type_id=type.get_id record_id=record.get_id %}">Record {{ record.get_id }}</a></span>
+    <span class="seperator">&gt;</span>
+    <span class="breadcrumb">Edit</span>
+{% endblock %}
+
+{% block content %}
+
+    <h3>We are trying to send your data to GithHub ...</h3>
+
+    <p>Please wait ...</p>
+
+{% endblock %}
+
+

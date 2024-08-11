@@ -1,0 +1,208 @@
+html, body {
+    padding: 0;
+    margin: 0;
+}
+
+:root {
+  --main-background-color: #a7d9e8;
+  --highlight-color: #74a6b5;
+}
+
+
+header {
+    background: var(--main-background-color);
+    padding: 10px 0;
+    h1 {
+        margin: 0;
+        a {
+            text-decoration: none;
+            color: black;
+        }
+        a:hover, a:focus {
+            text-decoration: underline;
+            color: black;
+        }
+        .h1-section {
+            display: inline-block;
+        }
+        @media (max-width: 800px) {
+            .h1-section {
+                display:block;
+            }
+        }
+        img {
+            width: 40px;
+            height: 40px;
+        }
+    }
+
+}
+
+nav#menu {
+    background: var(--main-background-color);
+    text-align: right;
+    padding: 10px 0;
+    a {
+        text-decoration: none;
+        color: black;
+    }
+    a:hover, a:focus {
+        text-decoration: underline;
+        color: black;
+    }
+}
+
+nav#breadcrumbs {
+    padding: 10px 0;
+    margin: 0 0 10px 0;
+    border-bottom: 5px solid var(--highlight-color);
+    a {
+        text-decoration: none;
+        color: black;
+    }
+    a:hover, a:focus {
+        text-decoration: underline;
+        color: blue;
+    }
+}
+
+.content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5px;
+}
+
+footer {
+    margin: 50px 0;
+    font-size: 80%;
+    text-align: center;
+}
+
+table.data {
+    tr {
+        th {
+            border-bottom: 1px solid var(--highlight-color);
+            padding: 5px;
+            margin: 0;
+        }
+        td {
+            border-bottom: 1px solid var(--main-background-color);
+            padding: 5px;
+            margin: 0;
+        }
+    }
+}
+
+.paging {
+    margin: 10px 0;
+    text-align: center;
+}
+
+table.summary {
+    tr {
+        th {
+            border-bottom: 1px solid var(--main-background-color);
+            border-right: 1px solid var(--highlight-color);
+            padding: 5px;
+            margin: 0;
+            vertical-align: top;
+        }
+        td {
+            border-bottom: 1px solid var(--main-background-color);
+            padding: 5px;
+            margin: 0;
+        }
+    }
+}
+
+a.button, input.button {
+    display: inline-block;
+    background: var(--main-background-color);
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: black;
+    border: 0;
+}
+a.button:hover, a.button:focus, input.button:hover, input.button:focus {
+    text-decoration: underline;
+    color: black;
+    background: var(--highlight-color);
+}
+
+ul.repositories, ul.branches {
+    li {
+        padding: 20px 0;
+        list-style-type: none;
+        margin: 0;
+        a.title {
+            display: block;
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            font-size: 120%;
+            margin-bottom: 5px;
+        }
+        a.title:hover, a.title:focus {
+            text-decoration: underline;
+            color: blue;
+        }
+        .title img {
+            width: 40px;
+            height: 40px;
+        }
+        .links {
+            text-align: right;
+        }
+    }
+}
+
+.popout-box {
+    margin: 10px 50px;
+    border: 5px solid var(--highlight-color);
+    border-radius: 3px;
+    padding: 10px;
+    .links {
+        text-align: right;
+    }
+}
+
+
+.links {
+    text-align: right;
+    padding: 10px 0;
+    a {
+        display: inline-block;
+        margin: 5px;
+    }
+}
+
+.filters {
+    margin: 10px 50px;
+    border: 1px solid var(--highlight-color);
+    border-radius: 3px;
+    padding: 10px;
+    .filter-group {
+        margin: 10px 0;
+        .filter-group-title {
+            font-weight: bold;
+        }
+    }
+}
+
+textarea#editor_body_textarea, textarea#raw_data_out {
+    width: 100%;
+}
+textarea#editor_body_textarea {
+    height: 300px;
+}
+textarea#raw_data_out {
+    height: 100px;
+}
+#editor_body_label {
+    font-weight: bold;
+}
+
+.field_description {
+    font-size: 80%;
+}

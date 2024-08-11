@@ -1,0 +1,20 @@
+{% extends 'datatighub/github/repository/base.html' %}
+
+{% block head_title %}
+    Errors - {% include "datatighub/github/repository/head_title.html" with repository=repository branch=branch %}
+{% endblock %}
+
+{% block header_title %}
+    {% include "datatighub/github/repository/header_title.html" with repository=repository branch=branch %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <span class="breadcrumb"><a href="{% url 'datatighubgithub_repository:tree_index' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug tree_name=branch.branch_name %}">Overview</a></span>
+    <span class="seperator">&gt;</span>
+    <span class="breadcrumb">Errors</span>
+{% endblock %}
+
+{% block content %}
+
+    {% include "datatighub/git/repository/tree/base_errors_site.html" with count_site_errors=count_site_errors all_errors=all_errors %}
+{% endblock %}

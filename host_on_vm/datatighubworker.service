@@ -1,0 +1,10 @@
+[Unit]
+Description=DataTig Hub Worker
+
+[Service]
+ExecStart=/home/datatighub/run_worker.sh
+User=datatighub
+Group=datatighub
+
+[Install]
+WantedBy=multi-user.target

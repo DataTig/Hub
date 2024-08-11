@@ -1,0 +1,35 @@
+{% extends 'datatighub/github/repository/base.html' %}
+
+{% block head_title %}Welcome{% endblock %}
+
+{% block header_title %}
+    {% include "datatighub/github/repository/header_title.html" with repository=repository branch=branch %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <span class="breadcrumb"><a href="{% url 'datatighubgithub_repository:index' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug %}">Overview</a></span>
+    <span class="seperator">&gt;</span>
+    <span class="breadcrumb">Admin</span>
+{% endblock %}
+
+{% block content %}
+
+    <h3>Branches</h3>
+
+    <table class="data">
+        {% include "datatighub/git/repository/admin_base_branch_header.html" %}
+        {% for branch in branches %}
+            {% url 'datatighubgithub_repository:tree_index' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug tree_name=branch.branch_name as branch_url %}
+            {% include "datatighub/git/repository/admin_base_branch_row.html" with branch=branch branch_url=branch_url  primary_branch=repository.primary_branch %}
+        {% endfor %}
+    </table>
+
+    <h3>Webhook</h3>
+
+    {% load datatighub %}
+
+    Webhook URL:
+    <input type="text" value="{% site_domain %}{% url 'datatighubgithub_repository:webhook' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug webhook_code=repository.webhook_code %}"}
+
+
+{% endblock %}

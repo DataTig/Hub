@@ -1,0 +1,88 @@
+<table class="summary">
+    <tr>
+        <th>Id</th>
+        <td>{{ field.get_id }}</td>
+    </tr>
+    <tr>
+        <th>Title</th>
+        <td>{{ field.get_title }}</td>
+    </tr>
+    <tr>
+        <th>Description</th>
+        <td>{{ field.get_description }}</td>
+    </tr>
+    <tr>
+        <th>Type</th>
+        <td>{{ field.get_type }}</td>
+    </tr>
+    {% if "records" in stats and "records_with_value" in stats %}
+        <tr>
+            <th>Completeness</th>
+            <td>{{ stats.records_with_value }} records out of {{ stats.records }} have a value ({{  stats.records_with_value_percentage }}%).</td>
+        </tr>
+    {% endif %}
+    {% if field.get_type == 'boolean' %}
+        <tr>
+            <th>Values</th>
+            <td>
+                <p>{{ stats.records_with_true_value }} records out of {{ stats.records }} have a True value ({{  stats.records_with_true_value_percentage }}%).</p>
+                <p>{{ stats.records_with_false_value }} records out of {{ stats.records }} have a False value ({{  stats.records_with_false_value_percentage }}%).</p>
+            </td>
+        </tr>
+    {% endif %}
+</table>
+
+{% if field.get_type == 'list-dictionaries' %}
+
+    <h3>Definition of dictionaries in list</h3>
+
+    <table class="data">
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Type</th>
+        </tr>
+        {% for subfield in field.get_fields.values %}
+        <tr>
+            <td>{{ subfield.get_id }}</td>
+            <td>{{ subfield.get_title }}</td>
+            <td>{{ subfield.get_type }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+{% endif %}
+
+
+{% if "records_with_number_values" in stats %}
+    <h3>Records with number of values</h3>
+    <table class="data">
+        <tr>
+            <th>Number of values</th>
+            <th>Number of records with this number of values</th>
+        </tr>
+        {% for k,v in stats.records_with_number_values.data.items %}
+            <tr>
+                <td>{{ k }}</td>
+                <td>{{ v }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endif %}
+{% if "distinct_values"  in stats %}
+    <h3>Distinct Values</h3>
+    <table class="data">
+        <tr>
+            <th>Values</th>
+            <th>Number of times used</th>
+        </tr>
+        {% for k in stats.distinct_values %}
+            <tr>
+                <td>{{ k.value }}</td>
+                <td>{{ k.c }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+

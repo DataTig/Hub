@@ -1,0 +1,26 @@
+DocumentRoot /home/datatighub/webroot
+<Directory /home/datatighub/webroot>
+    Require all granted
+</Directory>
+
+<Location "/">
+        ProxyPass uwsgi://127.0.0.1:8080/
+</Location>
+
+<Location "/.well-known/acme-challenge">
+        ProxyPass !
+</Location>
+
+<Location "/static">
+    ProxyPass !
+</Location>
+
+<Location "/robots.txt">
+    ProxyPass !
+</Location>
+
+ErrorLog /var/log/apache2/datatighub_error.log
+LogFormat "%{REQUEST_SCHEME}x://%v %h %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" extended
+CustomLog /var/log/apache2/datatighub_access.log extended
+
+

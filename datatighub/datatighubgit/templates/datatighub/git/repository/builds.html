@@ -1,0 +1,29 @@
+{% extends 'datatighub/git/repository/base.html' %}
+
+{% block head_title %}
+    Builds - {% include "datatighub/git/repository/head_title.html" with repository=repository branch=None %}
+{% endblock %}
+
+{% block header_title %}
+    {% include "datatighub/git/repository/header_title.html" with repository=repository branch=None %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <span class="breadcrumb"><a href="{% url 'datatighubgit_repository:index' repository_slug=repository.slug %}">Overview</a></span>
+    <span class="seperator">&gt;</span>
+    <span class="breadcrumb">Builds</span>
+{% endblock %}
+
+{% block content %}
+
+    <h2>{{ repository.git_url }}</h2>
+
+    <table class="data">
+        {% include "datatighub/git/repository/builds_base_table_header.html" %}
+        {% for build in builds %}
+            {% url 'datatighubgit_repository:tree_index' repository_slug=repository.slug tree_name=build.git_branch.branch_name as branch_url %}
+            {% include "datatighub/git/repository/builds_base_table_row.html" with build=build branch_name=build.git_branch.branch_name branch_url=branch_url %}
+        {% endfor %}
+    </table>
+
+{% endblock %}

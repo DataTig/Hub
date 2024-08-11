@@ -1,0 +1,64 @@
+{% extends 'datatighub/core/base.html' %}
+
+{% block head_title %}Welcome{% endblock %}
+
+{% block head %}
+    <meta name="robots" content="{{ setting_datatig_hub_meta_robots }}" />
+{% endblock %}
+
+{% block breadcrumbs %}
+    <a href="{% url 'datatighubcore:index' %}">Welcome</a>
+{% endblock %}
+
+{% block fullbreadcrumbs %}{% endblock %}
+
+{% load static %}
+
+{% block content %}
+
+    {% include "datatighub/core/index_intro.html" %}
+
+    <h2>Browse</h2>
+
+    <ul class="repositories">
+        {% for github_repo in github_repos %}
+            <li>
+                <a href="{% url 'datatighubgithub_repository:index' org_or_user_name=github_repo.wrapper.slug  repo_name=github_repo.slug %}" class="title" rel="nofollow">
+                    <img src="{% static 'repository.png' %}"> {{ github_repo.get_title }}
+                </a>
+                <div class="description">
+                    {{ github_repo.get_description|urlize|linebreaksbr }}
+                </div>
+                <div class="links">
+                    <a href="{% url 'datatighubgithub_repository:index' org_or_user_name=github_repo.wrapper.slug  repo_name=github_repo.slug %}" class="button" rel="nofollow">
+                        View {{ github_repo.get_title }} <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </li>
+        {% endfor %}
+        {% for git_repo in git_repos %}
+            <li>
+                <a href="{% url 'datatighubgit_repository:index' repository_slug=git_repo.slug %}" class="title" rel="nofollow">
+                    <img src="{% static 'repository.png' %}"> {{ git_repo.get_title }}
+                </a>
+                <div class="description">
+                    {{ git_repo.get_description|urlize|linebreaksbr }}
+                </div>
+                <div class="links">
+                    <a href="{% url 'datatighubgit_repository:index' repository_slug=git_repo.slug %}" class="button" rel="nofollow">
+                        View {{ git_repo.get_title }} <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </li>
+        {% endfor %}
+        <li>
+            <a href="{% url 'datatighubcore:new' %}" class="title"><img src="{% static 'repository.png' %}"> Add your repository</a>
+            <div class="links">
+                <a href="{% url 'datatighubcore:new' %}" class="button">
+                    Add <i class="fa-solid fa-plus"></i>
+                </a>
+            </div>
+        </li>
+    </ul>
+
+{% endblock %}
