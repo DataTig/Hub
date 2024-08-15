@@ -24,7 +24,7 @@
         {% for github_repo in github_repos %}
             <li>
                 <a href="{% url 'datatighubgithub_repository:index' org_or_user_name=github_repo.wrapper.slug  repo_name=github_repo.slug %}" class="title" rel="nofollow">
-                    <img src="{% static 'repository.png' %}"> {{ github_repo.get_title }}
+                    <img src="{% static 'repository.png' %}" alt="Repository"> {{ github_repo.get_title }}
                 </a>
                 <div class="description">
                     {{ github_repo.get_description|urlize|linebreaksbr }}
@@ -39,7 +39,7 @@
         {% for git_repo in git_repos %}
             <li>
                 <a href="{% url 'datatighubgit_repository:index' repository_slug=git_repo.slug %}" class="title" rel="nofollow">
-                    <img src="{% static 'repository.png' %}"> {{ git_repo.get_title }}
+                    <img src="{% static 'repository.png' %}" alt="Repository"> {{ git_repo.get_title }}
                 </a>
                 <div class="description">
                     {{ git_repo.get_description|urlize|linebreaksbr }}
@@ -52,7 +52,7 @@
             </li>
         {% endfor %}
         <li>
-            <a href="{% url 'datatighubcore:new' %}" class="title"><img src="{% static 'repository.png' %}"> Add your repository</a>
+            <a href="{% url 'datatighubcore:new' %}" class="title"><img src="{% static 'repository.png' %}" alt="Repository"> Add your repository</a>
             <div class="links">
                 <a href="{% url 'datatighubcore:new' %}" class="button">
                     Add <i class="fa-solid fa-plus"></i>
