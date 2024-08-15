@@ -6,6 +6,7 @@ html, body {
 :root {
   --main-background-color: #a7d9e8;
   --highlight-color: #74a6b5;
+  --highlight-font: arial, sans-serif;
 }
 
 
@@ -13,6 +14,7 @@ header {
     background: var(--main-background-color);
     padding: 10px 0;
     h1 {
+        font-family: var(--highlight-font);
         margin: 0;
         a {
             text-decoration: none;
@@ -39,6 +41,7 @@ header {
 }
 
 nav#menu {
+    font-family: var(--highlight-font);
     background: var(--main-background-color);
     text-align: right;
     padding: 10px 0;
@@ -53,6 +56,7 @@ nav#menu {
 }
 
 nav#breadcrumbs {
+    font-family: var(--highlight-font);
     padding: 10px 0;
     margin: 0 0 10px 0;
     border-bottom: 5px solid var(--highlight-color);
@@ -73,14 +77,20 @@ nav#breadcrumbs {
 }
 
 footer {
+    font-family: var(--highlight-font);
     margin: 50px 0;
     font-size: 80%;
     text-align: center;
 }
 
+h2, h3, h4 {
+    font-family: var(--highlight-font);
+}
+
 table.data {
     tr {
         th {
+            font-family: var(--highlight-font);
             border-bottom: 1px solid var(--highlight-color);
             padding: 5px;
             margin: 0;
@@ -101,6 +111,7 @@ table.data {
 table.summary {
     tr {
         th {
+            font-family: var(--highlight-font);
             border-bottom: 1px solid var(--main-background-color);
             border-right: 1px solid var(--highlight-color);
             padding: 5px;
@@ -123,6 +134,7 @@ a.button, input.button {
     text-decoration: none;
     color: black;
     border: 0;
+    font-family: var(--highlight-font);
 }
 a.button:hover, a.button:focus, input.button:hover, input.button:focus {
     text-decoration: underline;
@@ -142,6 +154,7 @@ ul.repositories, ul.branches {
             font-weight: bold;
             font-size: 120%;
             margin-bottom: 5px;
+            font-family: var(--highlight-font);
         }
         a.title:hover, a.title:focus {
             text-decoration: underline;
@@ -186,6 +199,7 @@ ul.repositories, ul.branches {
         margin: 10px 0;
         .filter-group-title {
             font-weight: bold;
+            font-family: var(--highlight-font);
         }
     }
 }
