@@ -62,16 +62,32 @@ Look in DB
 Python Packages Upgrade
 -----------------------
 
-This will upgrade all packages:
+To upgrade the DataTig library only, edit `requirements.in` and change the commit hash then run:
 
+.. code-block::
+
+    docker compose -f docker-compose.dev.yml run datatig-hub-app-dev  pip-compile
+    docker compose -f docker-compose.dev.yml run datatig-hub-app-dev  pip-compile requirements_dev.in
+
+Or this will upgrade all other packages:
 
 .. code-block::
 
     docker compose -f docker-compose.dev.yml run datatig-hub-app-dev  pip-compile --upgrade
     docker compose -f docker-compose.dev.yml run datatig-hub-app-dev  pip-compile --upgrade requirements_dev.in
-    docker compose -f docker-compose.dev.yml run datatig-hub-app-dev  pip-compile --upgrade requirements_docs.in
+
+After either upgrade, then rebuild the dev environment:
+
+.. code-block::
+
     docker compose -f docker-compose.dev.yml down # (if running)
     docker compose -f docker-compose.dev.yml build --no-cache
+
+To upgrade the packages used for docs and rebuild the docs environment:
+
+.. code-block::
+
+    docker compose -f docker-compose.dev.yml run datatig-hub-app-dev  pip-compile --upgrade requirements_docs.in
     docker compose -f docker-compose.docs.yml down # (if running)
     docker compose -f docker-compose.docs.yml build --no-cache
 
