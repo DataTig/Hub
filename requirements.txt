@@ -34,7 +34,7 @@ click-plugins==1.1.1
     # via celery
 click-repl==0.3.0
     # via celery
-datatig @ git+https://github.com/DataTig/DataTig.git@f7635f141e0c1416c5c62c0cb5b0870ba05ee448
+datatig @ git+https://github.com/DataTig/DataTig.git@d1534a45a99c32de9e0a0e647f3d3570a9df0838
     # via -r requirements.in
 dateparser==1.2.0
     # via datatig

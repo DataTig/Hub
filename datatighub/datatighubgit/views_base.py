@@ -96,7 +96,9 @@ def get_view_variables_repository_tree_type_list_records_api1_view(
     }
 
     for record in filter.get_results_records():
-        record_data = {"id": record.get_id(), "data": record.get_data()}
+        record_data = {"id": record.get_id(), "fields": {}}
+        for field_id in type.get_list_fields():
+            record_data["fields"][field_id] = record.get_field_value(field_id).get_api_value()
         out["records"].append(record_data)  # type:ignore
     return out
 
@@ -204,8 +206,10 @@ def get_view_variables_repository_tree_type_record_api1_view(
         "data": record.get_data(),
         "git_filename": record.get_git_filename(),
         "format": record.get_format(),
+        "fields": {},
     }
-
+    for field_id in type.get_fields().keys():
+        out["fields"][field_id] = record.get_field_value(field_id).get_api_value()
     return out
 
 
