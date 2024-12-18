@@ -218,10 +218,13 @@ def get_view_variables_repository_tree_type_record_api1_view(
             out["fields"][field_id]["last_check_result"] = None
             out["fields"][field_id]["last_check_at"] = None
             if field_value.get_value():
-                link = Link.objects.get(url=field_value.get_value())
-                if link and link.last_check_at:
-                    out["fields"][field_id]["last_check_result"] = link.last_check_result
-                    out["fields"][field_id]["last_check_at"] = link.last_check_at.strftime("%Y-%m-%d")
+                try:
+                    link = Link.objects.get(url=field_value.get_value())
+                    if link.last_check_at:
+                        out["fields"][field_id]["last_check_result"] = link.last_check_result
+                        out["fields"][field_id]["last_check_at"] = link.last_check_at.strftime("%Y-%m-%d")
+                except Link.DoesNotExist:
+                    pass
     return out
 
 
