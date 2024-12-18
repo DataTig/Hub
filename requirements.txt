@@ -38,7 +38,7 @@ datatig @ git+https://github.com/DataTig/DataTig.git@d1534a45a99c32de9e0a0e647f3
     # via -r requirements.in
 dateparser==1.2.0
     # via datatig
-django==5.0.8
+django==5.1.4
     # via
     #   -r requirements.in
     #   sentry-sdk

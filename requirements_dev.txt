@@ -63,7 +63,7 @@ dateparser==1.2.0
     # via
     #   -r requirements.txt
     #   datatig
-django==5.0.8
+django==5.1.4
     # via
     #   -r requirements.txt
     #   sentry-sdk
