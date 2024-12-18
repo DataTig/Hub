@@ -9,7 +9,7 @@ from django.http import HttpResponseNotFound
 
 import datatighubcore.datatig.models.siteconfig
 import datatighubcore.datatig.sqlite
-from datatighubcore.models import BaseBranch, BaseRepository
+from datatighubcore.models import BaseBranch, BaseRepository, Link
 
 
 def get_view_variables_repository_view(repository: BaseRepository, branch_class: BaseBranch) -> dict:
@@ -208,8 +208,20 @@ def get_view_variables_repository_tree_type_record_api1_view(
         "format": record.get_format(),
         "fields": {},
     }
-    for field_id in type.get_fields().keys():
-        out["fields"][field_id] = record.get_field_value(field_id).get_api_value()
+    for field_id, field in type.get_fields().items():
+        field_value = record.get_field_value(field_id)
+        out["fields"][field_id] = field_value.get_api_value()
+        # Add Link Check results to url fields.
+        # Need to add in better places tho, this won't work for url fields in lists.
+        # https://github.com/DataTig/Hub/issues/19
+        if field.get_type() == "url":
+            out["fields"][field_id]["last_check_result"] = None
+            out["fields"][field_id]["last_check_at"] = None
+            if field_value.get_value():
+                link = Link.objects.get(url=field_value.get_value())
+                if link and link.last_check_at:
+                    out["fields"][field_id]["last_check_result"] = link.last_check_result
+                    out["fields"][field_id]["last_check_at"] = link.last_check_at.strftime("%Y-%m-%d")
     return out
 
 
