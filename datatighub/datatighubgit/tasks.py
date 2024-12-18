@@ -57,5 +57,5 @@ def check_links_in_repository_and_branch(git_repository_id, git_branch_id):
     config = datatighubcore.datatig.models.siteconfig.HubSiteConfigModel("/tmp")
     config.load_from_sqlite_database(sqlite_path)
     db = datatighubcore.datatig.sqlite.HubDatatigSqlite(config, sqlite_path)
-    for url in db.get_url_field_values():
+    for url in db.get_urls_to_link_check():
         datatighubcore.tasks.link_check.apply_async(args=[url])

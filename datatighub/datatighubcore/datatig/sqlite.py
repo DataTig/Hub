@@ -162,10 +162,13 @@ class HubDatatigSqlite(DataStoreSQLite):
                     pass
         return out
 
-    def get_url_field_values(self):
+    def get_urls_to_link_check(self):
         urls = set()
         for type_id, type in self._site_config.get_types().items():
-            records, meta = self.get_records(type_id, type.get_records_filter())
+            filter = type.get_records_filter()
+            # TODO should really have a better way we can say "all records please"
+            filter.set_paging(1, 99999999)
+            records, meta = self.get_records(type_id, filter)
             for record in records:
                 for field_id, field in type.get_fields().items():
                     if field.get_type() == "url":

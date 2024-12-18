@@ -38,6 +38,10 @@ class HubTypeRecordsFilterModel:
                     self._field_filters[key_bits[0]] = {}
                 self._field_filters[key_bits[0]][key_bits[1]] = request.GET.get(key)
 
+    def set_paging(self, page, number_on_page):
+        self._page = page
+        self._number_on_page = number_on_page
+
     def get_columns(self):
         return self._columns
 
