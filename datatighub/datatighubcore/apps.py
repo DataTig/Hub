@@ -6,6 +6,8 @@ class DatatighubcoreConfig(AppConfig):
     name = "datatighubcore"
 
     def ready(self):
+        import datatighubcore.datatig.models.field_string
         import datatighubcore.datatig.models.field_url
 
         datatighubcore.datatig.models.field_url.monkey_patch()
+        datatighubcore.datatig.models.field_string.monkey_patch()
