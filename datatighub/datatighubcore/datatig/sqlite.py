@@ -164,17 +164,9 @@ class HubDatatigSqlite(DataStoreSQLite):
 
     def get_urls_to_link_check(self):
         urls = set()
-        for type_id, type in self._site_config.get_types().items():
-            filter = type.get_records_filter()
-            # TODO should really have a better way we can say "all records please"
-            filter.set_paging(1, 99999999)
-            records, meta = self.get_records(type_id, filter)
-            for record in records:
-                for field_id, field in type.get_fields().items():
-                    if field.get_type() == "url":
-                        value = record.get_field_value(field_id)
-                        if value.get_value():
-                            urls.add(value.get_value())
-                    elif field.get_type() == "list-dictionaries":
-                        pass  # TODO
+        for type_id in self._site_config.get_types().keys():
+            for record_id in self.get_ids_in_type(type_id):
+                record = self.get_item(type_id, record_id)
+                for url in record.get_urls_in_field_values():
+                    urls.add(url)
         return list(urls)
