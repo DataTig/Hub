@@ -235,7 +235,9 @@ Run as root:
 
 
 Change to user with `su datatighub`
+
 Edit cron with `crontab -e`
+
 Add `0 2 * * * /home/datatighub/cron.sh`
 
 SSL
