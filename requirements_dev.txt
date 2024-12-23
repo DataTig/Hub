@@ -134,6 +134,8 @@ platformdirs==4.2.2
     # via black
 pluggy==1.5.0
     # via pytest
+prometheus-client==0.21.1
+    # via -r requirements.txt
 prompt-toolkit==3.0.47
     # via
     #   -r requirements.txt

@@ -101,4 +101,10 @@ DATATIG_HUB_LINK_CHECKER_ROBOTS_TXT_CACHE_SIZE
 DATATIG_HUB_LINK_CHECKER_USER_AGENT
 -----------------------------------
 
+DATATIG_HUB_SYSADMIN_MONITOR_USERNAME
+-------------------------------------
+
+DATATIG_HUB_SYSADMIN_MONITOR_PASSWORD
+-------------------------------------
+
 

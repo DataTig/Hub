@@ -11,4 +11,9 @@ urlpatterns = [
         views.AccountLogoutView.as_view(),
         name="account_logout",
     ),
+    path(
+        "sysadmin_monitor_app.prometheus",
+        views.SysadminMonitorAppPrometheusView.as_view(),
+        name="sysadmin_monitor_app_prometheus",
+    ),
 ]

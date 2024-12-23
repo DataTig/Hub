@@ -66,6 +66,8 @@ mdurl==0.1.2
     # via markdown-it-py
 oauthlib==3.2.2
     # via requests-oauthlib
+prometheus-client==0.21.1
+    # via -r requirements.in
 prompt-toolkit==3.0.47
     # via click-repl
 psycopg2==2.9.9

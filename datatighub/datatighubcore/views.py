@@ -1,9 +1,16 @@
+import base64
+
 import django.contrib.auth
+import prometheus_client
+from django.conf import settings
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
 
 from datatighubgit.models import GitRepository
 from datatighubgithub.models import GitHubRepository
+
+from .models import Link
 
 
 class IndexView(
@@ -58,3 +65,34 @@ class AccountLogoutView(
             "datatighub/core/account/logout.html",
             {},
         )
+
+
+prometheus_client.Gauge("datatighub_links_count", "DataTig Hub Links Count").set_function(
+    lambda: Link.objects.all().count()
+)
+
+
+class SysadminMonitorAppPrometheusView(
+    View,
+):
+
+    def get(self, request):
+        # Configured?
+        if not settings.DATATIG_HUB_SYSADMIN_MONITOR_USERNAME or not settings.DATATIG_HUB_SYSADMIN_MONITOR_PASSWORD:
+            return HttpResponse(status=401)
+
+        # Check dets?
+        auth_header = request.META.get("HTTP_AUTHORIZATION", "")
+        token_type, _, credentials = auth_header.partition(" ")
+
+        expected = base64.b64encode(
+            (
+                settings.DATATIG_HUB_SYSADMIN_MONITOR_USERNAME + ":" + settings.DATATIG_HUB_SYSADMIN_MONITOR_PASSWORD
+            ).encode("UTF-8")
+        ).decode()
+
+        if token_type != "Basic" or credentials != expected:
+            return HttpResponse(status=401, headers={"WWW-Authenticate": 'Basic realm="Dev", charset="UTF-8"'})
+
+        # Do work!
+        return HttpResponse(prometheus_client.generate_latest(), content_type="text/plain")
