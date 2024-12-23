@@ -9,7 +9,7 @@ from django.http import HttpResponseNotFound
 
 import datatighubcore.datatig.models.siteconfig
 import datatighubcore.datatig.sqlite
-from datatighubcore.models import BaseBranch, BaseRepository
+from datatighubcore.models import BaseBranch, BaseRepository, Link
 
 
 def get_view_variables_repository_view(repository: BaseRepository, branch_class: BaseBranch) -> dict:
@@ -207,7 +207,18 @@ def get_view_variables_repository_tree_type_record_api1_view(
         "git_filename": record.get_git_filename(),
         "format": record.get_format(),
         "fields": {},
+        "urls": [],
     }
+    for url in record.get_urls_in_field_values():
+        url_data = {"url": url, "last_check_result": None, "last_check_at": None}
+        try:
+            link = Link.objects.get(url=url)
+            if link.last_check_at:
+                url_data["last_check_result"] = link.last_check_result
+                url_data["last_check_at"] = link.last_check_at.strftime("%Y-%m-%d")
+        except Link.DoesNotExist:
+            pass
+        out["urls"].append(url_data)
     for field_id, field in type.get_fields().items():
         field_value = record.get_field_value(field_id)
         out["fields"][field_id] = field_value.get_api_value()
