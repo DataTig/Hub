@@ -10,8 +10,6 @@ from django.views import View
 from datatighubgit.models import GitRepository
 from datatighubgithub.models import GitHubRepository
 
-from .models import Link
-
 
 class IndexView(
     View,
@@ -65,11 +63,6 @@ class AccountLogoutView(
             "datatighub/core/account/logout.html",
             {},
         )
-
-
-prometheus_client.Gauge("datatighub_links_count", "DataTig Hub Links Count").set_function(
-    lambda: Link.objects.all().count()
-)
 
 
 class SysadminMonitorAppPrometheusView(
