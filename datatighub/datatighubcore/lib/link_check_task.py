@@ -49,33 +49,35 @@ class LinkCheck:
         # Link check!
         print("Getting URL: " + self._url)
         try:
-            check_response = requests.get(
+            with requests.get(
                 self._url,
                 headers={
                     "User-Agent": settings.DATATIG_HUB_LINK_CHECKER_USER_AGENT,
                     # If a link is to a giant GB download, we only want to get a tiny bit.
+                    # Tell server this, but also use stream=True in case the server ignores Range headers.
                     "Range": "bytes=0-1024",
                 },
                 timeout=60,
                 allow_redirects=True,
-            )
-            link.last_check_status_code = check_response.status_code
-            link.last_check_final_url = check_response.url if check_response.url != self._url else None
-            link.last_check_at = datetime.datetime.now(tz=datetime.timezone.utc)
-            if check_response.status_code in [200]:
-                link.last_check_result = Link.CheckResultChoices.SUCCESS
-            elif check_response.status_code in [404]:
-                link.last_check_result = Link.CheckResultChoices.FAILED
-            else:
-                link.last_check_result = Link.CheckResultChoices.UNCLEAR
-            link.save()
+                stream=True,
+            ) as check_response:
+                link.last_check_status_code = check_response.status_code
+                link.last_check_final_url = check_response.url if check_response.url != self._url else None
+                link.last_check_at = datetime.datetime.now(tz=datetime.timezone.utc)
+                if check_response.status_code in [200]:
+                    link.last_check_result = Link.CheckResultChoices.SUCCESS
+                elif check_response.status_code in [404]:
+                    link.last_check_result = Link.CheckResultChoices.FAILED
+                else:
+                    link.last_check_result = Link.CheckResultChoices.UNCLEAR
         except requests.exceptions.RequestException as err:
             print("ERROR: " + str(err))
             link.last_check_status_code = None
             link.last_check_final_url = None
             link.last_check_at = datetime.datetime.now(tz=datetime.timezone.utc)
             link.last_check_result = Link.CheckResultChoices.FAILED
-            link.save()
+
+        link.save()
 
     def _has_check_been_done_recently(self, link):
         # Has ever been done?
