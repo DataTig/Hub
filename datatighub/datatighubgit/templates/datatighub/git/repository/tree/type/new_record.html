@@ -15,7 +15,7 @@
 {% block breadcrumbs %}
     <span class="breadcrumb"><a href="{% url 'datatighubgit_repository:tree_index' repository_slug=repository.slug tree_name=branch.branch_name %}">Overview</a></span>
     <span class="seperator">&gt;</span>
-    <span class="breadcrumb"><a href="{% url 'datatighubgit_repository:tree_type_index' repository_slug=repository.slug tree_name=branch.branch_name type_id=type.get_id %}">Type {{ type.get_id }}</a></span>
+    <span class="breadcrumb"><a href="{% url 'datatighubgit_repository:tree_type_index' repository_slug=repository.slug tree_name=branch.branch_name type_id=type.get_id %}">Type: {{ type.get_id }}</a></span>
     <span class="seperator">&gt;</span>
     <span class="breadcrumbs">New Record</span>
 {% endblock %}

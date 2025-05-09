@@ -11,7 +11,7 @@
 {% block breadcrumbs %}
     <span class="breadcrumb"><a href="{% url 'datatighubgit_repository:tree_index' repository_slug=repository.slug tree_name=branch.branch_name %}">Overview</a></span>
     <span class="seperator">&gt;</span>
-    <span class="breadcrumb">Calendar {{ calendar.get_id }}</span>
+    <span class="breadcrumb">Calendar: {{ calendar.get_id }}</span>
 {% endblock %}
 
 {% block fullcontent %}
