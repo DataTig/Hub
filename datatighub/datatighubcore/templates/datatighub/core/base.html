@@ -6,9 +6,11 @@
         <title>{% block head_title %}{% endblock %} - {{ setting_datatig_hub_name }}</title>
         {% load static %}
         <link rel="stylesheet" href="{% static 'main.css' %}">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
         <link rel="icon" href="{% static 'logo.png' %}" />
         {% block head %}{% endblock %}
+        <link href="{% static 'fontawesome-free-6.7.2-web/css/fontawesome.min.css' %}" rel="stylesheet" />
+        <link href="{% static 'fontawesome-free-6.7.2-web/css/brands.min.css' %}" rel="stylesheet" />
+        <link href="{% static 'fontawesome-free-6.7.2-web/css/solid.min.css' %}" rel="stylesheet" />
     </head>
     <body>
         <header>
@@ -50,7 +52,6 @@
             </div>
         </footer>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js"></script>
         {% block javascript %}{% endblock %}
 
     </body>

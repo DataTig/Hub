@@ -59,7 +59,7 @@
 
     <div class="links">
         <a href="{% url 'datatighubgithub_repository:tree_type_new_record' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug tree_name=branch.branch_name type_id=type.get_id %}" class="button">
-             <i class="fa-solid fa-pen-to-square"></i> New Record
+             <i class="fa-solid fa-pencil"></i> New Record
         </a>
         <a href="{% url 'datatighubgithub_repository:tree_type_list_records_api1' org_or_user_name=repository.wrapper.slug  repo_name=repository.slug tree_name=branch.branch_name type_id=type.get_id %}" class="button">
              <i class="fa-solid fa-robot"></i> API

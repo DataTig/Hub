@@ -65,10 +65,10 @@
              <i class="fa-solid fa-database"></i> Browse SQLite Database
         </a>
         <a href="{% url 'datatighubgit_repository:tree_download_sqlite_index'  repository_slug=repository.slug tree_name=branch.branch_name %}" class="button">
-             <i class="fa-solid fa-download"></i> Download SQLite Database
+             <i class="fa-solid fa-database"></i>Download SQLite Database
         </a>
         <a href="{% url 'datatighubgit_repository:tree_download_frictionless_index'  repository_slug=repository.slug tree_name=branch.branch_name %}" class="button">
-             <i class="fa-solid fa-download"></i> Download Frictionless CSVs (Zip)
+             <i class="fa-solid fa-file-csv"></i> Download Frictionless CSVs (Zip)
         </a>
         <a href="{% url 'datatighubgit_repository:tree_api1'  repository_slug=repository.slug tree_name=branch.branch_name %}" class="button">
              <i class="fa-solid fa-robot"></i> API
