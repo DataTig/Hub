@@ -36,6 +36,35 @@
     {% endif %}
 </table>
 
+
+{% if field.get_type == 'enum' %}
+
+    <h3>Choices</h3>
+
+    <table class="data">
+        <tr>
+            <th>Value</th>
+            <th>Title</th>
+            <th>Number of times used</th>
+        </tr>
+        {% for choice in field.get_choices %}
+        <tr>
+            <td>{{ choice.value }}</td>
+            <td>{{ choice.title }}</td>
+            <td>
+                {% for k in stats.distinct_values %}
+                    {% if k.value == choice.value %}
+                        {{ k.c }}
+                    {% endif %}
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+{% endif %}
+
+
 {% if field.get_type == 'list-dictionaries' %}
 
     <h3>Definition of dictionaries in list</h3>
@@ -74,7 +103,8 @@
     </table>
 
 {% endif %}
-{% if "distinct_values"  in stats %}
+
+{% if "distinct_values" in stats and field.get_type != "enum" %}
     <h3>Distinct Values</h3>
     <table class="data">
         <tr>

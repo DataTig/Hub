@@ -74,7 +74,7 @@ class HubDatatigSqlite(DataStoreSQLite):
                 cur.execute("SELECT COUNT(*) AS c FROM record_" + type.get_id())
                 out["records"] = cur.fetchone()["c"]
             # Records with value
-            if field.get_type() in ["string", "url"]:
+            if field.get_type() in ["string", "url", "enum"]:
                 cur.execute(
                     "SELECT COUNT(*) AS c FROM record_"
                     + type.get_id()
@@ -135,7 +135,7 @@ class HubDatatigSqlite(DataStoreSQLite):
                     # Some data is an older format with different table names, so errors are expected.
                     pass
             # Distinct values in field
-            if field.get_type() in ["string"]:
+            if field.get_type() in ["string", "enum"]:
                 cur.execute(
                     (
                         "SELECT field_{field} AS value, COUNT(*) AS c FROM record_{type} "
@@ -144,7 +144,7 @@ class HubDatatigSqlite(DataStoreSQLite):
                     ).format(field=field.get_id(), type=type.get_id())
                 )
                 distinct_values = cur.fetchall()
-                if distinct_values and distinct_values[0]["c"] > 1:
+                if distinct_values and (distinct_values[0]["c"] > 1 or field.get_type() == "enum"):
                     out["distinct_values"] = distinct_values
             elif field.get_type() in ["list-strings"]:
                 try:
