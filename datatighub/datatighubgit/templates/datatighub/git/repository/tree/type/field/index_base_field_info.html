@@ -15,6 +15,10 @@
         <th>Type</th>
         <td>{{ field.get_type }}</td>
     </tr>
+    <tr>
+        <th>Required</th>
+        <td>{% if field.get_required %}Yes{% else %}No{% endif %}</td>
+    </tr>
     {% if "records" in stats and "records_with_value" in stats %}
         <tr>
             <th>Completeness</th>

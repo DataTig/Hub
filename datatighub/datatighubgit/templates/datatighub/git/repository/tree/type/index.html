@@ -59,6 +59,7 @@
             <th>Id</th>
             <th>Title</th>
             <th>Type</th>
+            <th>Required</th>
             <th>Description</th>
             <th></th>
         </tr>
@@ -67,6 +68,7 @@
             <td>{{ field.get_id }}</td>
             <td>{{ field.get_title }}</td>
             <td>{{ field.get_type }}</td>
+            <td>{% if field.get_required %}Yes{% else %}No{% endif %}</td>
             <td>{{ field.get_description|urlize|linebreaksbr }}</td>
             <td>
                 <a href="{% url 'datatighubgit_repository:tree_type_field_index'  repository_slug=repository.slug tree_name=branch.branch_name type_id=type.get_id field_id=field.get_id %}" class="button">

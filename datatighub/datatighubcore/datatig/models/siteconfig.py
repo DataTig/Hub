@@ -41,6 +41,7 @@ class HubSiteConfigModel(SiteConfigModel):
                             "key": field_row["key"],
                             "title": field_row["title"],
                             "description": field_row["description"],
+                            "required": field_row["required"],
                         }
                         type_field_json.update(json.loads(field_row["extra_config"]))
                         if "/" in field_row["id"]:
