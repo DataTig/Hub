@@ -20,7 +20,6 @@ class LinkCheck:
         self._url_parsed = urllib.parse.urlparse(self._url)
 
     def process(self):
-        global ROBOTS_TXT_PARSERS
         # HTTP(S) only
         if not self._url or self._url_parsed.scheme not in ["http", "https"]:
             return
@@ -88,7 +87,6 @@ class LinkCheck:
         return delta.total_seconds() < settings.DATATIG_HUB_LINK_CHECKER_SECONDS_TILL_CHECK_URL_AGAIN
 
     def _is_robots_allowed(self):
-        global ROBOTS_TXT_PARSERS
         robots_url = self._url_parsed.scheme + "://" + self._url_parsed.netloc + "/robots.txt"
 
         # check entry in ROBOTS_TXT_PARSERS is not too old
