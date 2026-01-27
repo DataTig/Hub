@@ -99,7 +99,7 @@ def get_view_variables_repository_tree_type_list_records_api1_view(
         record_data = {"id": record.get_id(), "fields": {}}
         for field_id in filter.get_columns():
             record_data["fields"][field_id] = record.get_field_value(field_id).get_api_value()
-        out["records"].append(record_data)  # type:ignore
+        out["records"].append(record_data)  # type: ignore
     return out
 
 
