@@ -31,6 +31,9 @@ class BaseBuildTask:
     def get_save_dir(self):
         raise Exception("Extending classes must implement!")
 
+    def get_repository_build(self):
+        raise Exception("Extending classes must implement!")
+
     def build(self):
         # Start
         print("self._build {} for " + self.get_logging_message())
@@ -47,29 +50,30 @@ class BaseBuildTask:
                 single_branch=True,
                 depth=1,
             )
-            git_repository = datatighubcore.git.repository.RepositoryAccessLocalGit(
-                os.path.join(tmp_directory, "repository")
-            )
+            datatig_root = os.path.join(tmp_directory, "repository")
+            if self.get_repository_build():
+                datatig_root = os.path.join(datatig_root, self.get_repository_build())
+            git_repository = datatighubcore.git.repository.RepositoryAccessLocalGit(datatig_root)
             commit_hash = git_repository.get_current_commit()
             self._build.commit = commit_hash
             # fallback config?
             if self.get_datatig_config_fallback_url():
                 if not (
-                    os.path.exists(os.path.join(tmp_directory, "repository", "datatig.yaml"))
-                    or os.path.exists(os.path.join(tmp_directory, "repository", "datatig.json"))
+                    os.path.exists(os.path.join(datatig_root, "datatig.yaml"))
+                    or os.path.exists(os.path.join(datatig_root, "datatig.json"))
                 ):
                     response = requests.get(self.get_datatig_config_fallback_url())
                     # We assume YAML, not JSON.
                     # We could just document that somewhere, or check first character in file is a { or not.
                     with open(
-                        os.path.join(tmp_directory, "repository", "datatig.yaml"),
+                        os.path.join(datatig_root, "datatig.yaml"),
                         "w",
                     ) as f:
                         f.write(response.text)
             # process
             # raise Exception("TEST General")
             datatig.process.go(
-                os.path.join(tmp_directory, "repository"),
+                datatig_root,
                 sqlite_output=os.path.join(tmp_directory, "output.sqlite"),
                 frictionless_output=os.path.join(tmp_directory, "frictionless.zip"),
             )

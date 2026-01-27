@@ -39,3 +39,6 @@ class GitHubBuildTask(BaseBuildTask):
             "repository",
             str(self._build.github_repository.id),
         )
+
+    def get_repository_build(self):
+        return self._build.github_repository.directory

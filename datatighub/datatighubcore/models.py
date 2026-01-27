@@ -20,6 +20,7 @@ class BaseRepository(models.Model):
     description = models.TextField(null=True, blank=True)
     listing_sort_order = models.IntegerField(null=False, default=0)
     primary_branch = models.ForeignKey("BaseBranch", on_delete=models.SET_NULL, null=True)
+    directory = models.CharField(null=True, blank=True, max_length=500)
 
     def save(self, *args, **kwargs):
         if not self.datatig_config_fallback_url:
