@@ -1,7 +1,7 @@
 Django<6
 psycopg2
 django-environ
-git+https://github.com/DataTig/DataTig.git@433571a78fa2956cb685a95b0960ac7c6f72ff90#egg=datatig
+git+https://github.com/DataTig/DataTig.git@16ba696b3e27fd05cb2a02d714dcb9b3e3b4287f#egg=datatig
 requests
 requests-oauthlib
 celery
