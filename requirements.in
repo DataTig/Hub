@@ -11,3 +11,4 @@ markdown-it-py
 lru-dict
 sentry-sdk[django]
 prometheus-client
+gunicorn
