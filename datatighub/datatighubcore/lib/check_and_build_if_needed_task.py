@@ -127,16 +127,16 @@ class BaseCheckAndBuildIfNeededTask:
                 )
 
             except datatig.exceptions.SiteConfigurationException as exc:
-                self._build.exception_site_configuration = str(exc)
-                self._build.failed = datetime.datetime.now(tz=datetime.timezone.utc)
-                self._build.save()
+                build.exception_site_configuration = str(exc)
+                build.failed = datetime.datetime.now(tz=datetime.timezone.utc)
+                build.save()
                 shutil.rmtree(tmp_directory)
                 return
             # except requests.exceptions.RequestException as e:
             except Exception as exc:
-                self._build.exception = str(exc)
-                self._build.failed = datetime.datetime.now(tz=datetime.timezone.utc)
-                self._build.save()
+                build.exception = str(exc)
+                build.failed = datetime.datetime.now(tz=datetime.timezone.utc)
+                build.save()
                 shutil.rmtree(tmp_directory)
                 return
 
