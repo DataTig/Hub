@@ -31,7 +31,7 @@ class BaseBuildTask:
     def get_save_dir(self):
         raise Exception("Extending classes must implement!")
 
-    def get_repository_build(self):
+    def get_repository_directory(self):
         raise Exception("Extending classes must implement!")
 
     def build(self):
@@ -51,8 +51,8 @@ class BaseBuildTask:
                 depth=1,
             )
             datatig_root = os.path.join(tmp_directory, "repository")
-            if self.get_repository_build():
-                datatig_root = os.path.join(datatig_root, self.get_repository_build())
+            if self.get_repository_directory():
+                datatig_root = os.path.join(datatig_root, self.get_repository_directory())
             git_repository = datatighubcore.git.repository.RepositoryAccessLocalGit(datatig_root)
             commit_hash = git_repository.get_current_commit()
             self._build.commit = commit_hash

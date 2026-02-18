@@ -34,5 +34,5 @@ class GitBuildTask(BaseBuildTask):
             str(self._build.git_repository.id),
         )
 
-    def get_repository_build(self):
+    def get_repository_directory(self):
         return self._build.git_repository.directory
