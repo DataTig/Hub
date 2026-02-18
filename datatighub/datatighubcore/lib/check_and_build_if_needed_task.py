@@ -36,6 +36,9 @@ class BaseCheckAndBuildIfNeededTask:
     def get_save_dir(self):
         raise Exception("Extending classes must implement!")
 
+    def get_repository_directory(self):
+        raise Exception("Extending classes must implement!")
+
     def build(self):
         # Start
         print("CheckAndBuildIfNeededTask for " + self.get_logging_message())
@@ -72,6 +75,10 @@ class BaseCheckAndBuildIfNeededTask:
             build.started = datetime.datetime.now(tz=datetime.timezone.utc)
             build.save()
 
+            datatig_root = os.path.join(tmp_directory, "repository")
+            if self.get_repository_directory():
+                datatig_root = os.path.join(datatig_root, self.get_repository_directory())
+
             try:
 
                 # fallback config?
@@ -84,14 +91,14 @@ class BaseCheckAndBuildIfNeededTask:
                         # We assume YAML, not JSON.
                         # We could just document that somewhere, or check first character in file is a { or not.
                         with open(
-                            os.path.join(tmp_directory, "repository", "datatig.yaml"),
+                            os.path.join(datatig_root, "datatig.yaml"),
                             "w",
                         ) as f:
                             f.write(response.text)
 
                 # process
                 datatig.process.go(
-                    os.path.join(tmp_directory, "repository"),
+                    datatig_root,
                     sqlite_output=os.path.join(tmp_directory, "output.sqlite"),
                     frictionless_output=os.path.join(tmp_directory, "frictionless.zip"),
                 )

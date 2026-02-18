@@ -50,3 +50,6 @@ class CheckAndBuildIfNeededTask(BaseCheckAndBuildIfNeededTask):
             "repository",
             str(self._github_repository.id),
         )
+
+    def get_repository_directory(self):
+        return self._github_repository.directory
